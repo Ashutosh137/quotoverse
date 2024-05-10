@@ -14,6 +14,7 @@ import { FavoriteBorder, Favorite } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import convertDateStringIntoSeconds from "@/lib/middleware/time";
 import { debounce } from "lodash";
+import toast from "react-hot-toast";
 
 export default function Addcomment({ id }) {
   const [comment, setcomment] = useState("");
@@ -38,15 +39,22 @@ export default function Addcomment({ id }) {
               }),
             });
             const res = await data.json();
+            if (res.error) {
+              toast.error(res.error);
+            }
+            toast.success(res?.message);
             console.log(res);
             setcomment("");
           } catch {
             (err) => {
+              toast.error(err.message);
               console.log(err);
             };
           }
         } else {
           console.log("not loggined");
+          toast.error("Login required");
+          setcomment("");
         }
       }}
     >
@@ -125,7 +133,6 @@ function Comment({ comment }) {
             variant="caption"
             color="CaptionText"
             sx={{ color: "GrayText" }}
-
             textTransform={"capitalize"}
           >
             {/* {commentby.createdat} */}
@@ -133,7 +140,7 @@ function Comment({ comment }) {
           </Typography>
         </Stack>
 
-        <Typography variant="body2" fontFamily={"cursive"}  color="initial">
+        <Typography variant="body2" fontFamily={"cursive"} color="initial">
           '{comment.text}'
         </Typography>
       </Stack>
@@ -142,7 +149,7 @@ function Comment({ comment }) {
           sx={{ color: "GrayText" }}
           onClick={() => {
             setisliked((prev) => !prev);
-            handlelike()
+            handlelike();
           }}
         >
           {!isliked ? <FavoriteBorder /> : <Favorite />}

@@ -24,20 +24,20 @@ export default async function Page() {
             borderRadius={3}
             spacing={2}
             my={3}
+            component={Link}
+            sx={{
+              textDecoration: "none",
+              color: "primary",
+            }}
+            href={`tag/${tag?.slug}`}
           >
             <Typography
-              component={Link}
-              sx={{
-                textDecoration: "none",
-                color: "inherit",
-              }}
-              href={`tag/${tag?.slug}`}
               variant="button"
-              color="initial"
+              color="primary"
             >
               # {tag?.name} :
             </Typography>
-            <Typography variant="body1" color="initial">
+            <Typography variant="body1" color="primary">
               {tag?.quoteCount}
             </Typography>
           </Stack>

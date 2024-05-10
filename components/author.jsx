@@ -1,25 +1,22 @@
 import React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
-import { Stack, Typography, MenuItem, Link } from "@mui/material";
+import { Stack, Typography} from "@mui/material";
 
 export default function Author({ author }) {
   return (
-    <Stack direction={"row"} alignContent={"center"} spacing={1}>
-      <Box width={100} my={"auto"} padding={3}>
-        <Avatar width={100} sx={{ width: 70, height: 70 }} variant="circular" />
+    <Stack passHref direction={"row"} border={1} borderRadius={3} my={3} borderColor={"primary"} color={"white"} flexWrap={"nowrap"}  spacing={1}>
+      <Box   m={"auto"} my={2} padding={3}>
+        <Avatar sx={{ width: 70, height: 70 }} variant="circular" />
       </Box>
-      <Stack px={3} py={4} textTransform={"capitalize"}>
+      <Stack  px={2} py={4} textTransform={"capitalize"}>
         <Stack justifyContent={"space-between"} direction={"row"}>
           <Box>
-            <Typography variant="h5">{author?.name}</Typography>
-            <Typography variant="body1">{author?.description}</Typography>
+            <Typography color={"primary"} variant="h5">{author?.name}</Typography>
+            <Typography color={"primary"} variant="body1">{author?.description}</Typography>
           </Box>
-          <Box my={1} mr={20}>
+          <Box my={1} mr={1}>
             <Button
               href={author?.link}
               variant="contained"
@@ -33,7 +30,7 @@ export default function Author({ author }) {
           </Box>
         </Stack>
 
-        <Typography my={2} variant="subtitle1">
+        <Typography my={2} color={"primary"} variant="subtitle1">
           {author?.content || author?.bio}
         </Typography>
       </Stack>

@@ -8,10 +8,11 @@ function Navbar() {
   const { isLoggedIn } = useSelector((state) => state.userdata);
   return (
     <Box display="flex" mx="" my={3}>
-      <Box display="" mr="auto" my="">
+      <Stack direction={"row"} alignItems={"center"} spacing={2} mr="auto" my="">
         <Typography
+          color="primary"
           sx={{
-            color: "black",
+            color: "primary",
             textDecoration: "none",
           }}
           component={Link}
@@ -20,10 +21,52 @@ function Navbar() {
         >
           Qutoverse
         </Typography>
-      </Box>
+        <Typography
+          color="primary"
+          sx={{
+            color: "primary",
+            textDecoration: "none",
+          }}
+          component={Link}
+          href={"/quotes"}
+          variant="h6"
+        >
+          tranding quotes
+        </Typography>
+        <Typography
+          color="primary"
+          sx={{
+            color: "primary",
+            textDecoration: "none",
+          }}
+          component={Link}
+          href={"/tag"}
+          variant="h6"
+        >
+          all tags
+        </Typography>
+        <Typography
+          color="primary"
+          sx={{
+            color: "primary",
+            textDecoration: "none",
+          }}
+          component={Link}
+          href={"/author"}
+          variant="h6"
+        >
+          tranding authors
+        </Typography>
+      </Stack>
       {!isLoggedIn && (
         <Stack direction={"row"} spacing={2}>
-          <Button component={Link} href={"/login"} variant="outlined">
+          <Button
+            color="primary"
+            borderColor="primary"
+            component={Link}
+            href={"/login"}
+            variant="outlined"
+          >
             login
           </Button>
           <Button
@@ -43,11 +86,8 @@ function Navbar() {
           href={"/profile"}
           borderColor="primary.main"
           borderRadius={100}
-          display=""
           mr={2}
           p={0.2}
-          my=""
-          sx=""
         >
           <Avatar variant="circular" sx={{ width: 40, height: 40 }} />
         </Stack>

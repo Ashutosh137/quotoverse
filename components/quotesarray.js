@@ -1,5 +1,4 @@
 "use client";
-
 import { fetchdata } from "@/app/fetch";
 import { useEffect, useState } from "react";
 import Quote from "./quotes";

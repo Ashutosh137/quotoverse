@@ -17,10 +17,11 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "lodash";
+import toast from "react-hot-toast";
 // import { ExpandMore } from "@mui/icons-material";
 export default function Quote({ quote, redirect = true }) {
   const dispatch = useDispatch();
-  const { favorite } = useSelector((state) => state.userdata);
+  const { favorite ,isLoggedIn} = useSelector((state) => state.userdata);
   const [like, setLike] = useState(false);
 
   useEffect(() => {
@@ -28,8 +29,10 @@ export default function Quote({ quote, redirect = true }) {
   }, [favorite, quote]);
 
   const handlelike = debounce(() => {
+    if (isLoggedIn) {
     dispatch(updateuserdata(quote));
-    setLike((prev) => !prev);
+    setLike((prev) => !prev);}
+    else toast.error("Login Required")
   }, 300);
 
   return (
@@ -37,13 +40,14 @@ export default function Quote({ quote, redirect = true }) {
       passHref
       border={1}
       borderRadius={3}
+      borderColor={"primary"}
       component={Link}
       href={redirect ? `/quotes/${quote?._id}` : ""}
       direction="row"
       sx={{
-        color: "ThreeDDarkShadow",
         textDecoration: "none",
       }}
+      color={"white"}
       spacing={1}
       my={2}
       p={2}
@@ -55,17 +59,17 @@ export default function Quote({ quote, redirect = true }) {
       <Stack margin={0} sx={{ px: 2 }}>
         <Typography
           sx={{
-            color: "WindowText",
             textDecoration: "none",
           }}
           component={Link}
+          color="primary"
           href={`/author/${quote?.authorSlug}`}
           variant="h6"
           py={1}
         >
           {quote?.author}
         </Typography>
-        <Typography variant="subtitle1" fontFamily={"cursive"} lineHeight={1.5}>
+        <Typography color={"primary"} variant="subtitle1" fontFamily={"cursive"} lineHeight={1.5}>
           "{quote?.content}"
         </Typography>
 
@@ -76,7 +80,7 @@ export default function Quote({ quote, redirect = true }) {
                 key={index}
                 component={Link}
                 href={`/tag/${tag}`}
-                sx={{ color: "GrayText" }}
+                color="secondary"
               >
                 #{tag}
               </MenuItem>
@@ -90,12 +94,12 @@ export default function Quote({ quote, redirect = true }) {
               e.preventDefault();
               handlelike();
             }}
-            sx={{ color: "MenuText" }}
+            sx={{ color: "secondary" }}
             variant="text"
           >
             {like ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
-          <IconButton sx={{ color: "MenuText" }} variant="text">
+          <IconButton sx={{ color: "secondary" }} variant="text">
             <ForumSharpIcon />
           </IconButton>
           <IconButton
@@ -104,7 +108,7 @@ export default function Quote({ quote, redirect = true }) {
                 title: `${quote?.content}: by ${quote?.author}`,
               });
             }}
-            sx={{ color: "MenuText" }}
+            sx={{ color: "secondary" }}
             variant="text"
           >
             <SwapCallsOutlinedIcon />
