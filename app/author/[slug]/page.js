@@ -14,7 +14,7 @@ export default async function Page({ params }) {
     <div>
       <Author author={Author_data.results[0]} />
       {Allquotes.results.length === 0 && (
-        <Typography variant="body1" color="initial">
+        <Typography variant="h5" textAlign={"center"} color="initial">
           no qoutes
         </Typography>
       )}

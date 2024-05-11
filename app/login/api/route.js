@@ -20,16 +20,16 @@ export async function POST(req, res) {
     }
     const Is_password_correct = await comparePassword(password, User.password);
     if (!Is_password_correct) {
-      return Response.json({ error: "password is incorrect" });
+      return Response.json({ error: "Password Is Incorrect" });
     }
 
     const Get_userdata = await Get_userdatacollection.findOne({ email: email });
     if (!Get_userdata) {
-      return Response.json({ error: "userdata not found" });
+      return Response.json({ error: "Userdata Not Found" });
     }
 
     return Response.json({
-      message: "login sucessfully",
+      message: "Login Sucessfully",
       data: Get_userdata,
     });
   } catch (error) {

@@ -3,12 +3,14 @@ import Addcomment, { Comment } from "@/components/comment";
 import Quote from "@/components/quotes";
 import React from "react";
 import Box from "@mui/material/Box";
+import { headers } from "next/headers";
 import Typography from "@mui/material/Typography";
 
 export default async function Page({ params }) {
   const { id } = params;
+  const router = headers();
   const quotePromise = await fetchdata(`quotes/${id}`);
-  const { comments } = await fetch(`http://localhost:3000/quotes/${id}/api`, {
+  const { comments } = await fetch(`${router.get("referer")}/api`, {
     headers: {
       "Cache-Control": "no-cache",
     },

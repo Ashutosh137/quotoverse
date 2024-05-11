@@ -1,38 +1,49 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Stack, Typography, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { Signin } from "@/lib/store/userreducer";
+import { Signin, signup } from "@/lib/store/userreducer";
 import { useRouter } from "next/navigation";
 
-function LoginComponent({ handlesubmit, role = "signin" }) {
-  const { error } = useSelector((state) => state.userdata);
+function LoginComponent({ role = "signin" }) {
+  const { error, isLoggedIn, isSignup } = useSelector(
+    (state) => state.userdata
+  );
+  const router = useRouter();
   const [email, setemail] = useState("");
   const [pass, setpass] = useState("");
   const [name, setname] = useState("");
 
+  useEffect(() => {
+    isLoggedIn && router.push("/");
+    isSignup && router.push("/login");
+  }, [isLoggedIn, isSignup]);
+
   const dispatch = useDispatch();
-  const router = useRouter();
   return (
     <Stack
       direction={"column"}
       justifyContent={"center"}
       maxWidth={800}
       mx="auto"
-      // action={"/login/api"}
-      // method="POST"
       component={"form"}
       onSubmit={async (e) => {
         e.preventDefault();
         role === "signin" && dispatch(Signin(email, pass));
+        role === "signup" && dispatch(signup(email, pass, name));
         // handlesubmit()
       }}
       spacing={4}
       my={10}
     >
-      <Typography variant="body1" textTransform={"capitalize"} textAlign={"center"} color="red">
+      <Typography
+        variant="body1"
+        textTransform={"capitalize"}
+        textAlign={"center"}
+        color="red"
+      >
         {error}
       </Typography>
       {role === "signup" && (
@@ -40,8 +51,11 @@ function LoginComponent({ handlesubmit, role = "signin" }) {
           fullWidth
           id="name"
           label="Name"
+          sx={{ placeholder: { color: "primary" } }}
+          color="primary"
           InputLabelProps={{ style: { color: "primary" } }}
           type="text"
+          placeholder="Name"
           value={name}
           onChange={(e) => {
             setname(e.target.value);
@@ -52,8 +66,13 @@ function LoginComponent({ handlesubmit, role = "signin" }) {
         fullWidth
         id="email"
         label="Email id"
-        InputLabelProps={{ style: { color: "primary" } }}
+        InputLabelProps={{ style: { color: "primary",
+          borderColor:"primary"
+         } }}
         type="email"
+        placeholder="Email id"
+        sx={{ placeholder: { color: "primary" }}}
+        color="primary"
         value={email}
         onChange={(e) => {
           setemail(e.target.value);
@@ -63,6 +82,8 @@ function LoginComponent({ handlesubmit, role = "signin" }) {
         id="password"
         fullWidth
         type="password"
+        sx={{ placeholder: { color: "primary" } }}
+        placeholder="Password"
         label="Password"
         color="primary"
         InputLabelProps={{ style: { color: "primary" } }}
@@ -75,12 +96,7 @@ function LoginComponent({ handlesubmit, role = "signin" }) {
         forget password ?
       </Typography>
       <Box justifyContent={"center"}>
-        <Button
-          color="success"
-          type="submit"
-          variant="contained"
-         
-        >
+        <Button color="success" type="submit" variant="contained">
           sumbit
         </Button>
       </Box>

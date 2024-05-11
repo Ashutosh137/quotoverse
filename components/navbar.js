@@ -1,18 +1,33 @@
 "use client";
 import React from "react";
-import { Stack, Button, Box, Avatar } from "@mui/material";
+import {
+  Stack,
+  Button,
+  Box,
+  Avatar,
+  IconButton,
+  useTheme,
+} from "@mui/material";
+import ContrastIcon from "@mui/icons-material/Contrast";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-function Navbar() {
+function Navbar({ toggleTheme }) {
   const { isLoggedIn } = useSelector((state) => state.userdata);
+  const { palette } = useTheme();
   return (
     <Box display="flex" mx="" my={3}>
-      <Stack direction={"row"} alignItems={"center"} spacing={2} mr="auto" my="">
+      <Stack
+        direction={"row"}
+        alignItems={"center"}
+        spacing={2}
+        mr="auto"
+        my=""
+      >
         <Typography
           color="primary"
           sx={{
-            color: "primary",
             textDecoration: "none",
           }}
           component={Link}
@@ -22,11 +37,10 @@ function Navbar() {
           Qutoverse
         </Typography>
         <Typography
-          color="primary"
           sx={{
-            color: "primary",
             textDecoration: "none",
           }}
+          color="primary"
           component={Link}
           href={"/quotes"}
           variant="h6"
@@ -34,11 +48,10 @@ function Navbar() {
           tranding quotes
         </Typography>
         <Typography
-          color="primary"
           sx={{
-            color: "primary",
             textDecoration: "none",
           }}
+          color="primary"
           component={Link}
           href={"/tag"}
           variant="h6"
@@ -48,7 +61,6 @@ function Navbar() {
         <Typography
           color="primary"
           sx={{
-            color: "primary",
             textDecoration: "none",
           }}
           component={Link}
@@ -58,6 +70,9 @@ function Navbar() {
           tranding authors
         </Typography>
       </Stack>
+      <IconButton onClick={toggleTheme}>
+        {palette.mode === "dark" ? <DarkModeIcon /> : <ContrastIcon />}
+      </IconButton>
       {!isLoggedIn && (
         <Stack direction={"row"} spacing={2}>
           <Button

@@ -27,7 +27,7 @@ export async function POST(req, res) {
   });
 
   return Response.json({
-    message: "comment sucessfully",
+    message: "Comment Sucessfully",
     // data: Get_userdata,
   });
 }

@@ -16,7 +16,7 @@ export default async function Page({ params }) {
         variant="h5"
         textTransform={"capitalize"}
         textAlign={"center"}
-        color="initial"
+        color="primary"
       >
         #{newtag}
       </Typography>

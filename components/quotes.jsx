@@ -7,6 +7,7 @@ import {
   MenuItem,
   Box,
   IconButton,
+  useTheme,
 } from "@mui/material";
 import SwapCallsOutlinedIcon from "@mui/icons-material/SwapCallsOutlined";
 import { Addfavoriate, Removefavorite } from "@/lib/store/userreducer";
@@ -21,8 +22,9 @@ import toast from "react-hot-toast";
 // import { ExpandMore } from "@mui/icons-material";
 export default function Quote({ quote, redirect = true }) {
   const dispatch = useDispatch();
-  const { favorite ,isLoggedIn} = useSelector((state) => state.userdata);
+  const { favorite, isLoggedIn } = useSelector((state) => state.userdata);
   const [like, setLike] = useState(false);
+  const { palette } = useTheme();
 
   useEffect(() => {
     setLike(favorite.includes(quote?._id));
@@ -30,24 +32,23 @@ export default function Quote({ quote, redirect = true }) {
 
   const handlelike = debounce(() => {
     if (isLoggedIn) {
-    dispatch(updateuserdata(quote));
-    setLike((prev) => !prev);}
-    else toast.error("Login Required")
+      dispatch(updateuserdata(quote));
+      setLike((prev) => !prev);
+    } else toast.error("Login Required");
   }, 300);
 
   return (
     <Stack
-      passHref
-      border={1}
-      borderRadius={3}
-      borderColor={"primary"}
-      component={Link}
-      href={redirect ? `/quotes/${quote?._id}` : ""}
-      direction="row"
       sx={{
         textDecoration: "none",
       }}
-      color={"white"}
+      passHref
+      border={1}
+      borderRadius={3}
+      component={Link}
+      href={redirect ? `/quotes/${quote?._id}` : ""}
+      direction="row"
+      color={palette.mode === "light" ? "black" : "white"}
       spacing={1}
       my={2}
       p={2}
@@ -69,7 +70,12 @@ export default function Quote({ quote, redirect = true }) {
         >
           {quote?.author}
         </Typography>
-        <Typography color={"primary"} variant="subtitle1" fontFamily={"cursive"} lineHeight={1.5}>
+        <Typography
+          color={"primary"}
+          variant="subtitle1"
+          fontFamily={"cursive"}
+          lineHeight={1.5}
+        >
           "{quote?.content}"
         </Typography>
 
@@ -77,10 +83,13 @@ export default function Quote({ quote, redirect = true }) {
           {quote?.tags?.map((tag, index) => {
             return (
               <MenuItem
+                color="primary"
+                sx={{
+                  textDecoration: "none",
+                }}
                 key={index}
                 component={Link}
                 href={`/tag/${tag}`}
-                color="secondary"
               >
                 #{tag}
               </MenuItem>

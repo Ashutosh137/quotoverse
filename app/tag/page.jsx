@@ -1,4 +1,3 @@
-import React from "react";
 import { fetchdata } from "../fetch";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -15,6 +14,10 @@ export default async function Page() {
       {tags.map((tag, index) => {
         return (
           <Stack
+            sx={{
+              textDecoration: "none",
+              borderColor: "primary",
+            }}
             key={index}
             direction={"row"}
             justifyContent={"space-between"}
@@ -25,16 +28,10 @@ export default async function Page() {
             spacing={2}
             my={3}
             component={Link}
-            sx={{
-              textDecoration: "none",
-              color: "primary",
-            }}
+            color="primary"
             href={`tag/${tag?.slug}`}
           >
-            <Typography
-              variant="button"
-              color="primary"
-            >
+            <Typography variant="button" color="primary">
               # {tag?.name} :
             </Typography>
             <Typography variant="body1" color="primary">

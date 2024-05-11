@@ -19,7 +19,7 @@ export async function POST(req, res) {
 
     const Allreadyuser = await user.findOne({ email: email });
     if (Allreadyuser) {
-      return Response.json({ error: "user already exists" });
+      return Response.json({ error: "User Already Exists" });
     }
     await user.insertOne({
       email: email,
@@ -34,9 +34,9 @@ export async function POST(req, res) {
       createdat: new Date(),
     });
 
-    return Response.json({ message: "user created sucessfully" });
+    return Response.json({ message: "User Created Sucessfully" });
   } catch (error) {
     console.error(error);
-    return Response.json({ error: "Internal server error" });
+    return Response.json({ error: "Internal Server Error" });
   }
 }
