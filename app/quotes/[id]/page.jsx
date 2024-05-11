@@ -9,8 +9,9 @@ import Typography from "@mui/material/Typography";
 export default async function Page({ params }) {
   const { id } = params;
   const router = headers();
+  const origin = await router.get("host");
   const quotePromise = await fetchdata(`quotes/${id}`);
-  const { comments } = await fetch(`${router.get("referer")}/api`, {
+  const { comments } = await fetch(`http://${origin}/quotes/${id}/api`, {
     headers: {
       "Cache-Control": "no-cache",
     },
