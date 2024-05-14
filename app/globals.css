@@ -1,15 +1,16 @@
-*{
+* {
   padding: 0%;
   margin: 0%;
 }
 .link {
   text-decoration: none;
 }
-body{
+body {
   background: black;
   color: white;
 }
 
-body::-webkit-scrollbar{
+body::-webkit-scrollbar,
+.scrollhidden::-webkit-scrollbar {
   display: none;
 }

@@ -143,7 +143,13 @@ function Comment({ comment }) {
     <Box>
       {isdeleted ? (
         <Box>
-          <Typography textAlign={"center"} variant="body1" color="primary">
+          <Typography
+            textAlign={"center"}
+            textTransform={"capitalize"}
+            my={2}
+            variant="body1"
+            color="primary"
+          >
             this comment is deleted
           </Typography>
         </Box>
@@ -156,13 +162,16 @@ function Comment({ comment }) {
           borderRadius={2}
           direction={"row"}
         >
-          <Box p={2}>
+          <Box p={{ xs: 1, md: 3 }}>
             <Avatar color="primary" variant="circular" />
           </Box>
           <Stack fullWidth my={"auto"} py={1} direction={"column"}>
             <Stack py={1} direction={"row"} alignItems={"center"} spacing={2}>
               <Typography
                 variant="body1"
+                width={{ xs: 80, md: 300 }}
+                overflow={"hidden"}
+                whiteSpace={"pre"}
                 color="primary"
                 textTransform={"capitalize"}
               >
@@ -171,6 +180,9 @@ function Comment({ comment }) {
               <Typography
                 variant="caption"
                 color="secondary"
+                width={{ xs: 30, md: "100%" }}
+                overflow={"hidden"}
+                whiteSpace={"pre"}
                 textTransform={"capitalize"}
               >
                 {convertDateStringIntoSeconds(comment.createdat)}
@@ -181,7 +193,7 @@ function Comment({ comment }) {
               '{comment.text}'
             </Typography>
           </Stack>
-          <Box ml={"auto"} mr={2} my="auto">
+          <Box ml={"auto"} mr={{ xs: 0, md: 3 }} my="auto">
             <IconButton
               color="primary"
               onClick={() => {

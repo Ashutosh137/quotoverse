@@ -1,65 +1,53 @@
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import { Stack, Typography } from "@mui/material";
+import React from "react";
+import { Typography, Avatar, Stack, Button, Box } from "@mui/material";
 
 export default function Author({ author }) {
   return (
     <Stack
-      passHref
-      fullwidth
-      direction={"row"}
-      sx={{ textDecoration: "none" }}
-      borderRadius={3}
-      my={1}
-      border={1}
-      p={1}
-      color={"primary"}
-      spacing={1}
+      alignItems="center"
+      spacing={{ xs: 2, md: 0 }}
+      sx={{
+        textDecoration: "none",
+        borderRadius: 3,
+        my: 1,
+        border: 1,
+        p: 1,
+        color: "primary",
+      }}
     >
-      <Box my={"auto"} p={2}>
-        <Avatar width={50} variant="circular" />
-      </Box>
-      <Stack py={4} textTransform={"capitalize"}>
-        <Stack justifyContent={"space-between"} direction={"row"}>
-          <Box>
-            <Typography color={"primary"} variant="h5">
-              {author?.name}
-            </Typography>
-            <Typography color={"primary"} variant="body1">
-              {author?.description}
-            </Typography>
-          </Box>
-          <Box my={1} mr={2}>
-            <Button
-              href={author?.link}
-              variant="contained"
-              component={"a"}
-              target="_blank"
-              rel="noopener noreferrer"
-              color="primary"
-            >
-              Visit
-            </Button>
-          </Box>
-        </Stack>
-
-        <Typography
-          my={2}
-          mr={2}
-          whiteSpace={"break-spaces"}
-          color={"primary"}
-          variant="subtitle1"
+      <Stack
+        py={{ xs: 2, md: 4 }}
+        px={{xs:3,md:5}}
+        textTransform="capitalize"
+        spacing={1}
+      >
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
         >
+          <Typography variant="h5" color="primary">
+            {author?.name}
+          </Typography>
+          <Button
+            href={author?.link}
+            variant="contained"
+            component={"a"}
+            target="_blank"
+            rel="noopener noreferrer"
+            color="primary"
+          >
+            Visit
+          </Button>
+        </Stack>
+        <Typography variant="body1" color="primary">
+          {author?.description}
+        </Typography>
+        <Typography variant="subtitle2" py={2} color="primary">
           {author?.content || author?.bio}
         </Typography>
-        <Typography
-          variant="body1"
-          my={2}
-          textTransform={"capitalize"}
-          color="primary"
-        >
-          total quotes : {author.quoteCount}
+        <Typography variant="body1" color="primary">
+          Total Quotes: {author.quoteCount}
         </Typography>
       </Stack>
     </Stack>

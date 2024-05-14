@@ -33,10 +33,9 @@ function LoginComponent({ role = "signin" }) {
         e.preventDefault();
         role === "signin" && dispatch(Signin(email, pass));
         role === "signup" && dispatch(signup(email, pass, name));
-        // handlesubmit()
       }}
       spacing={4}
-      my={10}
+      my={5}
     >
       <Typography
         variant="body1"
@@ -66,12 +65,12 @@ function LoginComponent({ role = "signin" }) {
         fullWidth
         id="email"
         label="Email id"
-        InputLabelProps={{ style: { color: "primary",
-          borderColor:"primary"
-         } }}
+        InputLabelProps={{
+          style: { color: "primary", borderColor: "primary" },
+        }}
         type="email"
         placeholder="Email id"
-        sx={{ placeholder: { color: "primary" }}}
+        sx={{ placeholder: { color: "primary" } }}
         color="primary"
         value={email}
         onChange={(e) => {

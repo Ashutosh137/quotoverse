@@ -2,7 +2,7 @@ import React from "react";
 import { Skeleton, Box, Stack, CircularProgress } from "@mui/material";
 export default function Loading() {
   return (
-    <Stack fullwidth justifyContent={"center"}>
+    <Stack justifyContent={"center"}>
       {Array.from({ length: 10 }).map((_, index) => {
         return (
           <Stack
@@ -16,7 +16,7 @@ export default function Loading() {
             my={1}
             p={1}
           >
-            <Skeleton variant="text" fullwidth animation="wave" />
+            <Skeleton variant="text"  animation="wave" />
           </Stack>
         );
       })}

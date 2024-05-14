@@ -1,222 +1,282 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import {
-  Stack,
-  Button,
   Box,
-  Avatar,
   IconButton,
   useTheme,
   TextField,
   CircularProgress,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  AppBar,
+  Toolbar,
+  Typography,
+  Stack,
+  Button,
+  Avatar,
 } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import ContrastIcon from "@mui/icons-material/Contrast";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import Typography from "@mui/material/Typography";
-import Link from "next/link";
 import { useSelector } from "react-redux";
 import { debounce } from "lodash";
 import { fetchdata } from "@/lib/middleware/fetch";
+import Link from "next/link";
+
 function Navbar({ toggleTheme }) {
   const { isLoggedIn } = useSelector((state) => state.userdata);
   const { palette } = useTheme();
   const [search, setsearch] = useState("");
   const [searchresult, setsearchresult] = useState(null);
   const [loading, setloading] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const searchdata = debounce(async () => {
     setloading(true);
     const data = await fetchdata(`search/authors?query=${search}`);
     setsearchresult(data);
     setloading(false);
-  }, [1000]);
+  }, [1200]);
 
   useEffect(() => {
     searchdata(search);
   }, [search]);
 
+  const handleDrawerToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
-    <Box display="flex" mx="" my={3}>
-      <Stack
-        direction={"row"}
-        alignItems={"center"}
-        textTransform={"capitalize"}
-        spacing={1}
-        fullwidth
-        mr="auto"
-      >
+    <>
+      <Toolbar py={10}>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={handleDrawerToggle}
+          sx={{ mr: 2, display: { md: "none" } }}
+        >
+          <MenuIcon />
+        </IconButton>
         <Typography
-          color="primary"
-          sx={{
-            textDecoration: "none",
-          }}
-          component={Link}
-          href={"/"}
           variant="h4"
+          color={"primary"}
+          sx={{ textDecoration: "none", flexGrow: 1 }}
+          component={Link}
+          href="/"
         >
           Qutoverse
         </Typography>
+        <Stack
+          direction={"row"}
+          display={{ xs: "none", md: "flex" }}
+          spacing={2}
+          mx={5}
+          alignItems={"center"}
+        >
+          <Typography
+            sx={{ textDecoration: "none" }}
+            color={"primary"}
+            variant="h6"
+            href={`/quotes`}
+            component={Link}
+          >
+            Quotes
+          </Typography>
+          <Typography
+            sx={{ textDecoration: "none" }}
+            color={"primary"}
+            variant="h6"
+            href={`/author`}
+            component={Link}
+          >
+            Authors
+          </Typography>
+          <Typography
+            sx={{ textDecoration: "none" }}
+            color={"primary"}
+            variant="h6"
+            href={`/tag`}
+            component={Link}
+          >
+            Tags
+          </Typography>
+          {!isLoggedIn ? (
+            <Stack direction={"row"} mx={2} spacing={2}>
+              <Button
+                variant="outlined"
+                component={Link}
+                href="/login"
+                color="primary"
+              >
+                login
+              </Button>
+              <Button
+                variant="contained"
+                omponent={Link}
+                href="/signup"
+                color="primary"
+              >
+                join
+              </Button>
+            </Stack>
+          ) : (
+            <Box mx={3}>
+              <Avatar variant="circular" sx={{ width: 40, height: 40 }} />
+            </Box>
+          )}
+        </Stack>
+
+        <IconButton onClick={toggleTheme} color="primary">
+          {palette.mode === "dark" ? <DarkModeIcon /> : <ContrastIcon />}
+        </IconButton>
+      </Toolbar>
+      <Drawer
+        anchor="left"
+        fullWidth
+        open={menuOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true,
+        }}
+      >
         <Typography
-          sx={{
-            textDecoration: "none",
-          }}
+          variant="h5"
+          my={3}
+          mx={2}
           color="primary"
           component={Link}
-          href={"/quotes"}
-          variant="body1"
+          sx={{ textDecoration: "none" }}
+          href="/"
         >
-          tranding quotes
+          Quotoverse
         </Typography>
-        <Typography
-          sx={{
-            textDecoration: "none",
-          }}
-          color="primary"
-          component={Link}
-          href={"/tag"}
-          variant="body1"
-        >
-          all tags
-        </Typography>
-        <Typography
-          color="primary"
-          sx={{
-            textDecoration: "none",
-          }}
-          component={Link}
-          href={"/author"}
-          variant="body1"
-        >
-          tranding authors
-        </Typography>
-      </Stack>
-      <Stack fullWidth position={"relative"} direction={"column"}>
+        <List>
+          <ListItem
+            sx={{
+              textDecoration: "none",
+              color: palette.mode === "dark" ? "white" : "black",
+            }}
+            component={Link}
+            href="/quotes"
+          >
+            <ListItemText primary="Quotes" />
+          </ListItem>
+          <ListItem
+            sx={{
+              textDecoration: "none",
+              color: palette.mode === "dark" ? "white" : "black",
+            }}
+            component={Link}
+            href="/tag"
+          >
+            <ListItemText primary="Tags" color="white" />
+          </ListItem>
+          <ListItem
+            sx={{
+              textDecoration: "none",
+              color: palette.mode === "dark" ? "white" : "black",
+            }}
+            component={Link}
+            href="/author"
+          >
+            <ListItemText primary="Authors" />
+          </ListItem>
+          {!isLoggedIn ? (
+            <>
+              <ListItem
+                sx={{
+                  textDecoration: "none",
+                  color: palette.mode === "dark" ? "white" : "black",
+                }}
+                component={Link}
+                href="/login"
+              >
+                <ListItemText primary="Login" />
+              </ListItem>
+              <ListItem
+                sx={{
+                  textDecoration: "none",
+                  color: palette.mode === "dark" ? "white" : "black",
+                }}
+                component={Link}
+                href="/signup"
+              >
+                <ListItemText primary="Join" />
+              </ListItem>
+            </>
+          ) : (
+            <ListItem
+              sx={{
+                textDecoration: "none",
+                color: palette.mode === "dark" ? "white" : "black",
+              }}
+              component={Link}
+              href="/profile"
+            >
+              <ListItemText primary="Profile" />
+            </ListItem>
+          )}
+        </List>
+      </Drawer>
+      <Box mx="" my={3}>
         <TextField
           id="search"
-          label="search"
+          label="Search"
           type="search"
-          placeholder="search for authors, quotes, tags"
+          placeholder="Search for authors, quotes, tags"
           value={search}
           onChange={(e) => {
             setsearch(e.target.value);
           }}
+          fullWidth
+          sx={{ mb: 2 }}
         />
         {search && (
-          <Stack
-            direction={"column"}
-            spacing={2}
-            zIndex={3}
-            sx={{
-              backgroundColor: palette.mode === "light" ? "white" : "black",
-              overflowY: "scroll",
-            }}
-            justifyContent={"center"}
-            top={70}
-            borderRadius={3}
-            border={1}
-            color={"primary"}
-            p={3}
-            fullwidth
-            maxHeight={400}
-            position={"absolute"}
-          >
-            <Typography
-              variant="body1"
-              textAlign={"left"}
-              pb={1}
-              textTransform={"capitalize"}
-              color="secondary"
-            >
-              search result for "{search}"..
-            </Typography>
-            {searchresult?.count === 0 && (
-              <Typography
-                textAlign={"center"}
-                textTransform={"capitalize"}
-                variant="body1"
-              >
-                no result found
-              </Typography>
-            )}
-
-            {searchresult?.results?.map((item, index) => {
-              return (
-                <Typography
-                  color={"secondary"}
-                  component={Link}
-                  border={1}
-                  borderRadius={3}
-                  p={1}
-                  px={2}
-                  sx={{
-                    textDecoration: "none",
-                    ":hover": { borderColor: "primary" },
-                  }}
-                  onClick={() => {
-                    setsearch("");
-                    setsearchresult(null);
-                  }}
-                  href={`/author/${item.slug}`}
-                  key={index}
-                >
-                  {item.name}
-                </Typography>
-              );
-            })}
+          <Box>
             {loading && (
-              <Stack
-                direction={"row"}
-                justifyContent={"center"}
-                fullwidth
-                alignItems={"center"}
-                sx={{
-                  height: 100,
-                }}
-              >
+              <Stack direction={"row"} justifyContent={"center"}>
                 <CircularProgress />
               </Stack>
             )}
-          </Stack>
+            {searchresult && (
+              <List>
+                <Typography variant="body1" mb={2} color="secondary">
+                  Search results for "{search}"..
+                </Typography>
+                {searchresult.count === 0 && (
+                  <Typography
+                    variant="body1"
+                    textAlign={"center"}
+                    textTransform={"capitalize"}
+                    color="primary"
+                  >
+                    no result found
+                  </Typography>
+                )}
+                {searchresult.results.map((item, index) => (
+                  <ListItem
+                    key={index}
+                    component={Link}
+                    onClick={() => {
+                      setsearch("");
+                    }}
+                    sx={{
+                      textDecoration: "none",
+                      color: palette.mode === "dark" ? "white" : "black",
+                    }}
+                    href={`/author/${item.slug}`}
+                  >
+                    <ListItemText primary={item.name} />
+                  </ListItem>
+                ))}
+              </List>
+            )}
+          </Box>
         )}
-      </Stack>
-      <IconButton onClick={toggleTheme}>
-        {palette.mode === "dark" ? <DarkModeIcon /> : <ContrastIcon />}
-      </IconButton>
-      {!isLoggedIn && (
-        <Stack direction={"row"} spacing={2}>
-          <Button
-            color="primary"
-            borderColor="primary"
-            component={Link}
-            href={"/login"}
-            variant="outlined"
-          >
-            login
-          </Button>
-          <Button
-            component={Link}
-            href={"/signup"}
-            variant="contained"
-            color="primary"
-          >
-            join
-          </Button>
-        </Stack>
-      )}
-      {isLoggedIn && (
-        <Stack
-          border={1}
-          component={Link}
-          href={"/profile"}
-          borderColor="primary.main"
-          borderRadius={100}
-          mr={2}
-          p={0.2}
-        >
-          <Avatar variant="circular" sx={{ width: 40, height: 40 }} />
-        </Stack>
-      )}
-    </Box>
+      </Box>
+    </>
   );
 }
 

@@ -10,7 +10,6 @@ import {
   useTheme,
 } from "@mui/material";
 import SwapCallsOutlinedIcon from "@mui/icons-material/SwapCallsOutlined";
-import { Addfavoriate, Removefavorite } from "@/lib/store/userreducer";
 import ForumSharpIcon from "@mui/icons-material/ForumSharp";
 import { updateuserdata } from "@/lib/store/userreducer";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -19,7 +18,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "lodash";
 import toast from "react-hot-toast";
-// import { ExpandMore } from "@mui/icons-material";
+
 export default function Quote({ quote, redirect = true }) {
   const dispatch = useDispatch();
   const { favorite, isLoggedIn } = useSelector((state) => state.userdata);
@@ -30,7 +29,7 @@ export default function Quote({ quote, redirect = true }) {
     setLike(favorite.includes(quote?._id));
   }, [favorite, quote]);
 
-  const handlelike = debounce(() => {
+  const handleLike = debounce(() => {
     if (isLoggedIn) {
       dispatch(updateuserdata(quote));
       setLike((prev) => !prev);
@@ -47,17 +46,22 @@ export default function Quote({ quote, redirect = true }) {
       borderRadius={3}
       component={Link}
       href={redirect ? `/quotes/${quote?._id}` : ""}
-      direction="row"
+      direction={{ xs: "column", md: "row" }}
       color={palette.mode === "light" ? "black" : "white"}
       spacing={1}
-      my={2}
-      p={2}
+      my={3}
+      p={1}
     >
-      <Box my="3">
-        <Avatar variant="solid" sx={{ my: 2, mx: 1 }} />
+      <Box
+        display="flex"
+        justifyContent="center"
+        py={{ xs: 3, md: 3 }}
+        px={{ xs: 0, md: 2 }}
+      >
+        <Avatar variant="solid" />
       </Box>
 
-      <Stack margin={0} sx={{ px: 2 }}>
+      <Stack margin={0} sx={{ px: { xs: 2, md: 0 } }} flexGrow={1}>
         <Typography
           sx={{
             textDecoration: "none",
@@ -79,29 +83,27 @@ export default function Quote({ quote, redirect = true }) {
           "{quote?.content}"
         </Typography>
 
-        <Stack direction="row" flexWrap={"wrap"} py={1}>
-          {quote?.tags?.map((tag, index) => {
-            return (
-              <MenuItem
-                color="primary"
-                sx={{
-                  textDecoration: "none",
-                }}
-                key={index}
-                component={Link}
-                href={`/tag/${tag}`}
-              >
-                #{tag}
-              </MenuItem>
-            );
-          })}
+        <Stack direction="row" py={3} flexWrap="wrap" mb={1}>
+          {quote?.tags?.map((tag, index) => (
+            <MenuItem
+              color="primary"
+              sx={{
+                textDecoration: "none",
+              }}
+              key={index}
+              component={Link}
+              href={`/tag/${tag}`}
+            >
+              #{tag}
+            </MenuItem>
+          ))}
         </Stack>
 
-        <Stack margin={0} spacing={2} direction={"row"}>
+        <Stack direction={"row"} m={2}  spacing={2}>
           <IconButton
             onClick={(e) => {
               e.preventDefault();
-              handlelike();
+              handleLike();
             }}
             sx={{ color: "secondary" }}
             variant="text"

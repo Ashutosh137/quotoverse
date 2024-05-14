@@ -71,7 +71,7 @@ export default function Paginationquotes({
           fullwidth
           alignItems={"center"}
           sx={{
-            height: 600,
+            height: 300,
           }}
         >
           <CircularProgress />
