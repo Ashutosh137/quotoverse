@@ -11,50 +11,36 @@ export async function GET(req, context) {
 }
 
 export async function POST(req, res) {
-  //   // let { id } = context.params;
-  //   const { text, postedby, quoteid } = await Bodyconvert(req);
-  //   console.log(text, postedby, quoteid);
-  //   const db = await Connectmongodb();
-  //   const collection = db.collection("Comments");
-  //   await collection.insertOne({
-  //     text,
-  //     postedby,
-  //     quoteid,
-  //     createdat: new Date(),
-  //     likes: [],
-  //     replies: [],
-  //   });
-  //   return Response.json({
-  //     message: "comment sucessfully",
-  //     // data: Get_userdata,
-  //   });
+    return Response.json({
+      message: "no support",
+    });
 }
 export async function PUT(req, res) {
   try {
     const db = await Connectmongodb();
-    const { userdata,quote } = await Bodyconvert(req);
-    console.log(userdata,quote);
+    const { username, uid, isLoggedIn } = await Bodyconvert(req);
+    console.log(username, uid, isLoggedIn);
 
-    // const usercolloection = db.collection("users");
-    const Get_userdatacollection = db.collection("UserDataList");
+    if (isLoggedIn) {
+      const Get_userdatacollection = db.collection("UserDataList");
 
-    // const User = await Get_userdatacollection.updateOne();
-    // if (!User) {
-    //   return Response.json({ error: "user not found" });
-    // }
-    // const Is_password_correct = await comparePassword(password, User.password);
-    // if (!Is_password_correct) {
-    //   return Response.json({ error: "password is incorrect" });
-    // }
-
-    // const Get_userdata = await Get_userdatacollection.findOne({ email: email });
-    // if (!Get_userdata) {
-    //   return Response.json({ error: "userdata not found" });
-    // }
-    return Response.json({
-      message: "login sucessfully",
-      // data: Get_userdata,
-    });
+      const User = await Get_userdatacollection.updateOne(
+        { _id: new ObjectId(uid) },
+        { $set: { name: username } },
+        { returnOriginal: false }
+      );
+      if (!User) {
+        return Response.json({ error: "user not found" });
+      }
+      return Response.json({
+        message: "updatenname sucessfully",
+        data: User,
+      });
+    } else {
+      return Response.json({
+        error: "login required",
+      });
+    }
   } catch (error) {
     console.error(error);
     return Response.json({ error: "Internal server error" });

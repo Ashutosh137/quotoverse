@@ -114,7 +114,9 @@ export default function Quote({ quote, redirect = true }) {
           <IconButton
             onClick={() => {
               navigator.share({
-                title: `${quote?.content}: by ${quote?.author}`,
+                title: `A quote by ${quote.author}`,
+                text: `${quote.content} : ${quote.author}`,
+                url: `${window.origin}/quotes/${quote._id}`,
               });
             }}
             sx={{ color: "secondary" }}

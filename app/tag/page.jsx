@@ -1,14 +1,17 @@
-import { fetchdata } from "../fetch";
+import { fetchdata } from "../../lib/middleware/fetch";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { Stack } from "@mui/material";
-
+export const metadata = {
+  title: "Tags || Quotoverse",
+  description: 'all tags in quotoverse',
+};
 export default async function Page() {
   const tags = await fetchdata("tags");
   return (
     <Box>
-      <Typography variant="h5" textAlign={"center"} color="initial">
+      <Typography variant="h5" my={5} textAlign={"center"} color="primary">
         Tags
       </Typography>
       {tags.map((tag, index) => {

@@ -1,8 +1,8 @@
 import React from "react";
-import { Skeleton, Box, Stack, CircularProgress } from "@mui/material";
+import { Skeleton, Box, Stack } from "@mui/material";
 export default function Loading() {
   return (
-    <Stack fullwidth  justifyContent={"center"}>
+    <Stack justifyContent={"center"}>
       {Array.from({ length: 8 }).map((_, index) => {
         return (
           <Stack
@@ -36,6 +36,5 @@ export default function Loading() {
         );
       })}
     </Stack>
-    
   );
 }

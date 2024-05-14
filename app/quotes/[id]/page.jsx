@@ -1,11 +1,14 @@
-import { fetchdata } from "@/app/fetch";
+import { fetchdata } from "@/lib/middleware/fetch";
 import Addcomment, { Comment } from "@/components/comment";
 import Quote from "@/components/quotes";
 import React from "react";
 import Box from "@mui/material/Box";
 import { headers } from "next/headers";
 import Typography from "@mui/material/Typography";
-
+export const metadata = {
+  title: "Quote || quotoverse",
+  description: 'Quote in quotoverse',
+};
 export default async function Page({ params }) {
   const { id } = params;
   const router = headers();
@@ -17,6 +20,7 @@ export default async function Page({ params }) {
     },
   }).then((res) => res.json());
 
+  
   return (
     <div>
       <Quote redirect={false} quote={quotePromise} />

@@ -1,26 +1,33 @@
-import { fetchdata } from "@/app/fetch";
+import { fetchdata } from "@/lib/middleware/fetch";
 import Author from "@/components/author";
 import React from "react";
 import Box from "@mui/material/Box";
-import Quote from "@/components/quotes";
+import Paginationquotes from "@/components/paginationquotes";
 import Typography from "@mui/material/Typography";
+import Head from "next/head";
+
 export default async function Page({ params }) {
   const { slug } = params;
   const Author_data = await fetchdata(`authors?slug=${slug}`);
-  const Allquotes = await fetchdata(`quotes?author=${slug}`);
-  console.log(Allquotes);
-
   return (
-    <div>
+    <Box>
+      <Head>
+        <title>{slug}|| Author || qutoverse </title>
+        <meta name="description" content={`author ${slug} quotoverse`} />
+      </Head>
       <Author author={Author_data.results[0]} />
-      {Allquotes.results.length === 0 && (
-        <Typography variant="h5" textAlign={"center"} color="initial">
-          no qoutes
+      <Box my="2">
+        <Typography
+          variant="h5"
+          textAlign={"center"}
+          textTransform={"capitalize"}
+          my={5}
+          color="primary"
+        >
+          quotes
         </Typography>
-      )}
-      {Allquotes?.results?.map((quote, index) => {
-        return <Quote key={index} quote={quote} />;
-      })}
-    </div>
+      </Box>
+      <Paginationquotes url={`quotes`} urlpraser={`author=${slug}`} />
+    </Box>
   );
 }

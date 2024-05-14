@@ -10,7 +10,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { FavoriteBorder, Favorite } from "@mui/icons-material";
+import { FavoriteBorder, Favorite, DeleteForever } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import convertDateStringIntoSeconds from "@/lib/middleware/time";
 import { debounce } from "lodash";
@@ -24,12 +24,13 @@ export default function Addcomment({ id }) {
     <Stack
       direction={"row"}
       gap={2}
+      color={"primary"}
       component={"form"}
       onSubmit={async (e) => {
         e.preventDefault();
         if (isLoggedIn) {
           try {
-            const data = await fetch(`http://localhost:3000/quotes/${id}/api`, {
+            const data = await fetch(`${window.origin}/quotes/${id}/api`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -43,7 +44,6 @@ export default function Addcomment({ id }) {
               toast.error(res.error);
             }
             toast.success(res?.message);
-            console.log(res);
             setcomment("");
           } catch {
             (err) => {
@@ -52,7 +52,6 @@ export default function Addcomment({ id }) {
             };
           }
         } else {
-          console.log("not loggined");
           toast.error("Login required");
           setcomment("");
         }
@@ -61,6 +60,7 @@ export default function Addcomment({ id }) {
       <TextField
         id="comment"
         fullWidth
+        required
         label="Comment on this quotes"
         placeholder="Comment on this quotes"
         value={comment}
@@ -68,12 +68,7 @@ export default function Addcomment({ id }) {
           setcomment(e.target.value);
         }}
       />
-      <Button
-        variant="contained"
-        type="submit"
-        sx={{ font: "menu" }}
-        color="primary"
-      >
+      <Button variant="contained" type="submit" color="primary">
         comment
       </Button>
     </Stack>
@@ -81,15 +76,15 @@ export default function Addcomment({ id }) {
 }
 
 function Comment({ comment }) {
-  const { uid } = useSelector((state) => state.userdata);
-
+  const { uid, isLoggedIn } = useSelector((state) => state.userdata);
   const [commentby, setcommentby] = useState({});
+  const [isdeleted, setisdeleted] = useState(false);
   const [isliked, setisliked] = useState(false);
 
   useEffect(() => {
     const data = async () => {
       const postedby = await fetch(
-        `http://localhost:3000/profile/${comment?.postedby}`,
+        `${window.origin}/profile/${comment?.postedby}`,
         {
           headers: {
             "Cache-Control": "no-cache",
@@ -102,60 +97,113 @@ function Comment({ comment }) {
     data();
   }, []);
 
-  const handlelike = debounce(() => {
-    // dispatch(updateuserdata(quote));
-    setLike((prev) => !prev);
+  const handlelike = debounce(async () => {
+    try {
+      const data = await fetch(`${window.origin}/quotes/${comment._id}/api`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          commentid: comment._id,
+          uid,
+          isliked,
+        }),
+      });
+      const res = await data.json();
+      if (res.error) {
+        toast.error(res.error);
+      }
+      toast.success(res?.message);
+    } catch {
+      (err) => {
+        toast.error(err.message);
+        console.log(err);
+      };
+    }
   }, 300);
 
-  return (
-    <Stack
-      my={2}
-      p={1}
-      border={1}
-      borderColor={"ActiveBorder"}
-      borderRadius={2}
-      direction={"row"}
-    >
-      <Box p={2}>
-        <Avatar variant="circular" />
-      </Box>
-      <Stack fullWidth my={"auto"} py={1} direction={"column"}>
-        <Stack py={1} direction={"row"} alignItems={"center"} spacing={2}>
-          <Typography
-            variant="body1"
-            color="CaptionText"
-            sx={{ color: "GrayText" }}
-            textTransform={"capitalize"}
-          >
-            {commentby.name}
-          </Typography>
-          <Typography
-            variant="caption"
-            color="CaptionText"
-            sx={{ color: "GrayText" }}
-            textTransform={"capitalize"}
-          >
-            {/* {commentby.createdat} */}
-            {convertDateStringIntoSeconds(comment.createdat)}
-          </Typography>
-        </Stack>
+  const handledelete = async () => {
+    try {
+      const data = await fetch(`${window.origin}/quotes/${comment._id}/api`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          commentid: comment._id,
+        }),
+      }).then((res) => res.json());
+      if (data.error) {
+        toast.error(data.error);
+      }
+      if (data.message === "Comment Sucessfully deleted") setisdeleted(true);
+    } catch {
+      (err) => toast.error(err);
+    }
+  };
 
-        <Typography variant="body2" fontFamily={"cursive"} color="initial">
-          '{comment.text}'
-        </Typography>
-      </Stack>
-      <Box display="" mx="" ml={"auto"} mr={2} my="auto" sx="">
-        <IconButton
-          sx={{ color: "GrayText" }}
-          onClick={() => {
-            setisliked((prev) => !prev);
-            handlelike();
-          }}
+  return (
+    <Box>
+      {isdeleted ? (
+        <Box>
+          <Typography textAlign={"center"} variant="body1" color="primary">
+            this comment is deleted
+          </Typography>
+        </Box>
+      ) : (
+        <Stack
+          my={2}
+          p={1}
+          border={1}
+          borderColor={"ActiveBorder"}
+          borderRadius={2}
+          direction={"row"}
         >
-          {!isliked ? <FavoriteBorder /> : <Favorite />}
-        </IconButton>
-      </Box>
-    </Stack>
+          <Box p={2}>
+            <Avatar color="primary" variant="circular" />
+          </Box>
+          <Stack fullWidth my={"auto"} py={1} direction={"column"}>
+            <Stack py={1} direction={"row"} alignItems={"center"} spacing={2}>
+              <Typography
+                variant="body1"
+                color="primary"
+                textTransform={"capitalize"}
+              >
+                {commentby.name}
+              </Typography>
+              <Typography
+                variant="caption"
+                color="secondary"
+                textTransform={"capitalize"}
+              >
+                {convertDateStringIntoSeconds(comment.createdat)}
+              </Typography>
+            </Stack>
+
+            <Typography variant="body2" fontFamily={"cursive"} color="primary">
+              '{comment.text}'
+            </Typography>
+          </Stack>
+          <Box ml={"auto"} mr={2} my="auto">
+            <IconButton
+              color="primary"
+              onClick={() => {
+                if (isLoggedIn) {
+                  setisliked((prev) => !prev);
+                  handlelike();
+                } else {
+                  toast.error("Login Required");
+                }
+              }}
+            >
+              {!isliked ? <FavoriteBorder /> : <Favorite />}
+            </IconButton>
+            {uid === commentby._id && (
+              <IconButton aria-label="delete" onClick={handledelete}>
+                <DeleteForever />
+              </IconButton>
+            )}
+          </Box>
+        </Stack>
+      )}
+    </Box>
   );
 }
 

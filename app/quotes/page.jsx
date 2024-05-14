@@ -1,15 +1,14 @@
 import React from "react";
-import { fetchdata } from "../fetch";
-import Quote from "@/components/quotes";
 import { Box } from "@mui/material";
-
+import Paginationquotes from "@/components/paginationquotes";
+export const metadata = {
+  title: "Quotes || Quotoverse",
+  description: 'all quotes in quotoverse',
+};
 export default async function Page() {
-  const allquotes = await fetchdata("quotes");
   return (
     <Box>
-      {allquotes?.results?.map((quote, index) => {
-        return <Quote key={index} quote={quote} />;
-      })}
+      <Paginationquotes url={"quotes"} />
     </Box>
   );
 }
