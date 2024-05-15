@@ -51,14 +51,15 @@ export default function Quote({ quote, redirect = true }) {
       spacing={1}
       my={3}
       p={1}
+      py={2}
     >
       <Box
         display="flex"
         justifyContent="center"
-        py={{ xs: 3, md: 3 }}
+        py={{ xs: 2, md: 3 }}
         px={{ xs: 0, md: 2 }}
       >
-        <Avatar variant="solid" />
+        <Avatar variant="solid" sx={{ width: 60, height: 60 }} />
       </Box>
 
       <Stack margin={0} sx={{ px: { xs: 2, md: 0 } }} flexGrow={1}>
@@ -83,7 +84,7 @@ export default function Quote({ quote, redirect = true }) {
           "{quote?.content}"
         </Typography>
 
-        <Stack direction="row" py={3} flexWrap="wrap" mb={1}>
+        <Stack direction="row" py={{ xs: 1, md: 3 }} flexWrap="wrap">
           {quote?.tags?.map((tag, index) => (
             <MenuItem
               color="primary"
@@ -99,7 +100,7 @@ export default function Quote({ quote, redirect = true }) {
           ))}
         </Stack>
 
-        <Stack direction={"row"} m={2}  spacing={2}>
+        <Stack direction={"row"} m={2} mt={0} spacing={2}>
           <IconButton
             onClick={(e) => {
               e.preventDefault();

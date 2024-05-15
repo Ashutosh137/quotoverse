@@ -122,8 +122,8 @@ function Navbar({ toggleTheme }) {
               </Button>
             </Stack>
           ) : (
-            <Box mx={3}>
-              <Avatar variant="circular" sx={{ width: 40, height: 40 }} />
+            <Box mx={3} href={"/profile"} component={Link}>
+              <Avatar variant="circular"  sx={{ width: 40, height: 40 }} />
             </Box>
           )}
         </Stack>
