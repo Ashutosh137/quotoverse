@@ -116,7 +116,7 @@ function Navbar({ toggleTheme }) {
               </Button>
               <Button
                 variant="contained"
-                omponent={Link}
+                component={Link}
                 href="/signup"
                 color="primary"
               >
