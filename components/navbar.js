@@ -222,7 +222,13 @@ function Navbar({ toggleTheme }) {
           )}
         </List>
       </Drawer>
-      <Box mx="" my={3}>
+      <Box
+        my={3}
+        border={search ? 1 : 0}
+        borderRadius={5}
+        mx={1}
+        borderColor={palette.mode === "light" ? "black" : "white"}
+      >
         <TextField
           id="search"
           label="Search"
@@ -243,7 +249,7 @@ function Navbar({ toggleTheme }) {
               </Stack>
             )}
             {searchresult && (
-              <List>
+              <List px={2}>
                 <Typography
                   ml={2}
                   variant="h6"
@@ -283,11 +289,20 @@ function Navbar({ toggleTheme }) {
                 ))}
                 <Box
                   maxHeight={500}
+                  my={2}
                   sx={{ overflowY: "scroll", scrollbarColor: "revert" }}
                   className="scrollhidden"
                 >
                   {searchquotes?.count != 0 && (
-                    <Typography ml={5} variant="body2" color="primary">
+                    <Typography
+                      ml={5}
+                      pl={2}
+                      my={2}
+                      borderBottom={1}
+                      pb={1}
+                      variant="body1"
+                      color="primary"
+                    >
                       Quotes for "{search}"
                     </Typography>
                   )}

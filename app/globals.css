@@ -12,5 +12,5 @@ body {
 
 body::-webkit-scrollbar,
 .scrollhidden::-webkit-scrollbar {
-  background-color:black;
+  background-color: inherit;
 }
