@@ -12,5 +12,5 @@ body {
 
 body::-webkit-scrollbar,
 .scrollhidden::-webkit-scrollbar {
-  display: none;
+  background-color:black;
 }

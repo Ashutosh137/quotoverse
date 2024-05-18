@@ -23,19 +23,21 @@ import { useSelector } from "react-redux";
 import { debounce } from "lodash";
 import { fetchdata } from "@/lib/middleware/fetch";
 import Link from "next/link";
+import Quote from "./quotes";
 
 function Navbar({ toggleTheme }) {
   const { isLoggedIn } = useSelector((state) => state.userdata);
   const { palette } = useTheme();
   const [search, setsearch] = useState("");
   const [searchresult, setsearchresult] = useState(null);
+  const [searchquotes, setsearchquotes] = useState(null);
   const [loading, setloading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const searchdata = debounce(async () => {
     setloading(true);
-    const data = await fetchdata(`search/authors?query=${search}`);
-    setsearchresult(data);
+    setsearchquotes(await fetchdata(`search/quotes?query=${search}`));
+    setsearchresult(await fetchdata(`search/authors?query=${search}`));
     setloading(false);
   }, [1200]);
 
@@ -123,7 +125,7 @@ function Navbar({ toggleTheme }) {
             </Stack>
           ) : (
             <Box mx={3} href={"/profile"} component={Link}>
-              <Avatar variant="circular"  sx={{ width: 40, height: 40 }} />
+              <Avatar variant="circular" sx={{ width: 40, height: 40 }} />
             </Box>
           )}
         </Stack>
@@ -236,26 +238,34 @@ function Navbar({ toggleTheme }) {
         {search && (
           <Box>
             {loading && (
-              <Stack direction={"row"} justifyContent={"center"}>
+              <Stack direction={"row"} my={5} justifyContent={"center"}>
                 <CircularProgress />
               </Stack>
             )}
             {searchresult && (
               <List>
-                <Typography variant="body1" mb={2} color="secondary">
+                <Typography
+                  ml={2}
+                  variant="h6"
+                  my={2}
+                  textTransform={"capitalize"}
+                  color="secondary"
+                >
                   Search results for "{search}"..
                 </Typography>
-                {searchresult.count === 0 && (
-                  <Typography
-                    variant="body1"
-                    textAlign={"center"}
-                    textTransform={"capitalize"}
-                    color="primary"
-                  >
-                    no result found
-                  </Typography>
-                )}
-                {searchresult.results.map((item, index) => (
+                {searchresult.count === 0 &&
+                  !searchquotes &&
+                  searchquotes?.count === 0 && (
+                    <Typography
+                      variant="body1"
+                      textAlign={"center"}
+                      textTransform={"capitalize"}
+                      color="primary"
+                    >
+                      no result found
+                    </Typography>
+                  )}
+                {searchresult?.results?.map((item, index) => (
                   <ListItem
                     key={index}
                     component={Link}
@@ -271,6 +281,24 @@ function Navbar({ toggleTheme }) {
                     <ListItemText primary={item.name} />
                   </ListItem>
                 ))}
+                <Box
+                  maxHeight={500}
+                  sx={{ overflowY: "scroll", scrollbarColor: "revert" }}
+                  className="scrollhidden"
+                >
+                  {searchquotes?.count != 0 && (
+                    <Typography ml={5} variant="body2" color="primary">
+                      Quotes for "{search}"
+                    </Typography>
+                  )}
+                  {searchquotes?.results?.map((item, index) => {
+                    return (
+                      <Box mx={10}>
+                        <Quote key={index} quote={item} />
+                      </Box>
+                    );
+                  })}
+                </Box>
               </List>
             )}
           </Box>

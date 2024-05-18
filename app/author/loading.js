@@ -2,7 +2,7 @@ import React from "react";
 import { Skeleton, Box, Stack } from "@mui/material";
 export default function Loading() {
   return (
-    <Stack justifyContent={"center"}>
+    <Stack direction={"column"} justifyContent={"center"}>
       {Array.from({ length: 8 }).map((_, index) => {
         return (
           <Stack
@@ -26,9 +26,13 @@ export default function Loading() {
             </Box>
 
             <Stack margin={0} flexWrap={true} sx={{ px: 2 }}>
-              <Skeleton variant="text"animation="wave" />
+              <Skeleton
+                variant="text"
+                sx={{ width: { xs: 200, md: 500, xl: 1000 } }}
+                animation="wave"
+              />
 
-              <Skeleton variant="rectangular"animation="wave" />
+              <Skeleton variant="rectangular" height={100} animation="wave" />
 
               <Skeleton variant="text" animation="wave" />
             </Stack>
