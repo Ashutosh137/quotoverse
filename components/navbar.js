@@ -308,7 +308,7 @@ function Navbar({ toggleTheme }) {
                   )}
                   {searchquotes?.results?.map((item, index) => {
                     return (
-                      <Box mx={10}>
+                      <Box mx={{ xs: 2, md: 10 }}>
                         <Quote key={index} quote={item} />
                       </Box>
                     );

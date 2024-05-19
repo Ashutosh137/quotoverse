@@ -56,7 +56,7 @@ export default function Quote({ quote, redirect = true }) {
       <Box
         display="flex"
         justifyContent="center"
-        py={{ xs: 2, md: 3 }}
+        py={{ xs: 1, md: 3 }}
         px={{ xs: 0, md: 2 }}
       >
         <Avatar variant="solid" sx={{ width: 60, height: 60 }} />
@@ -71,6 +71,7 @@ export default function Quote({ quote, redirect = true }) {
           color="primary"
           href={`/author/${quote?.authorSlug}`}
           variant="h6"
+          textAlign={{ xs: "center", md: "left" }}
           py={1}
         >
           {quote?.author}
@@ -80,6 +81,7 @@ export default function Quote({ quote, redirect = true }) {
           variant="subtitle1"
           fontFamily={"cursive"}
           lineHeight={1.5}
+          textAlign={{ xs: "center", md: "left" }}
         >
           "{quote?.content}"
         </Typography>
