@@ -13,13 +13,19 @@ export default function Paginationquotes({
   urlpraser = "",
 }) {
   const [page, setpage] = useState(1);
+  const [morredata, setmorredata] = useState(true);
   const [quotes, setquotes] = useState([]);
   const [loading, setloading] = useState(false);
 
   const data = async () => {
     setloading(true);
-    const results = await fetchdata(`${url}?page=${page}&${urlpraser}`);
-    setquotes((prev) => [...prev, ...results?.results]);
+    const results = await fetchdata(`${url}?page=${page}&${urlpraser}`, {
+      caches: "force-caches",
+    });
+    if (results.count === 0) setmorredata(false);
+    else {
+      setquotes((prev) => [...prev, ...results?.results]);
+    }
     setloading(false);
   };
 
@@ -34,13 +40,17 @@ export default function Paginationquotes({
           document.documentElement.offsetHeight &&
         !loading
       ) {
-        setpage((prev) => prev + 1);
+        if (morredata) setpage((prev) => prev + 1);
       }
     }
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading]);
+  }, [loading, morredata]);
+
+  console.log(morredata);
+  if (!morredata) {
+    window.addEventListener("scroll", () => {});
+  }
 
   return (
     <Box display="" mx="" my="" sx="">

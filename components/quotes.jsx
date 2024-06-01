@@ -86,7 +86,7 @@ export default function Quote({ quote, redirect = true }) {
           "{quote?.content}"
         </Typography>
 
-        <Stack direction="row" py={{ xs: 1, md: 3 }} flexWrap="wrap">
+        <Stack direction="row" pt={2} flexWrap="wrap">
           {quote?.tags?.map((tag, index) => (
             <MenuItem
               color="primary"
@@ -102,7 +102,12 @@ export default function Quote({ quote, redirect = true }) {
           ))}
         </Stack>
 
-        <Stack direction={"row"} m={2} mt={0} spacing={2}>
+        <Stack
+          direction={"row"}
+          m={{ xs: "auto", md: 2 }}
+          pb={{ xs: 3, md: 0 }}
+          spacing={2}
+        >
           <IconButton
             onClick={(e) => {
               e.preventDefault();

@@ -14,6 +14,7 @@ import { useState } from "react";
 import { logout, updatename } from "@/lib/store/userreducer";
 import { Logout } from "@mui/icons-material";
 import Head from "next/head";
+import toast from "react-hot-toast";
 
 export default function Page() {
   const { favorite, isLoggedIn, name, uid } = useSelector(
@@ -69,9 +70,9 @@ export default function Page() {
               },
               body: JSON.stringify({ username, uid, isLoggedIn }),
             }).then((res) => res.json());
-            console.log(update);
             if (update.message) {
               dispatch(updatename(username));
+              toast.success("username updated successfully");
             }
           }}
           component={"form"}

@@ -14,7 +14,7 @@ export default async function Page({ params }) {
   const router = headers();
   const origin = await router.get("host");
   const quotePromise = await fetchdata(`quotes/${id}`);
-  const { comments } = await fetch(`http://${origin}/quotes/${id}/api`, {
+  const { comments } = await fetch(`https://${origin}/quotes/${id}/api`, {
     headers: {
       "Cache-Control": "no-cache",
     },

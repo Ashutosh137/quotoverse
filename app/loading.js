@@ -1,5 +1,6 @@
 import React from "react";
-import { Skeleton, Box, Stack, CircularProgress } from "@mui/material";
+import { Loading as Loadingui } from "@/components/ui/loading";
+import { Stack } from "@mui/material";
 export default function Loading() {
   return (
     <Stack
@@ -11,7 +12,7 @@ export default function Loading() {
         height: 600,
       }}
     >
-      <CircularProgress />
+      <Loadingui />
     </Stack>
   );
 }

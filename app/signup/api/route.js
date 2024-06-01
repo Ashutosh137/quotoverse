@@ -1,5 +1,6 @@
 import Bodyconvert from "@/lib/middleware/Bodyconvert";
 import { hashpassword } from "@/lib/middleware/hashpassword";
+import { sendWelcomeEmail } from "@/lib/middleware/sendemail";
 import Connectmongodb from "@/server/mongodb";
 // import User from "@/server/user";
 export async function GET(req) {
@@ -21,6 +22,8 @@ export async function POST(req, res) {
     if (Allreadyuser) {
       return Response.json({ error: "User Already Exists" });
     }
+
+    await sendWelcomeEmail(email);
     await user.insertOne({
       email: email,
       name: name,

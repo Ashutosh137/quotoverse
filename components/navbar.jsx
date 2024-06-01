@@ -24,9 +24,10 @@ import { debounce } from "lodash";
 import { fetchdata } from "@/lib/middleware/fetch";
 import Link from "next/link";
 import Quote from "./quotes";
+import { Loading } from "./ui/loading";
 
 function Navbar({ toggleTheme }) {
-  const { isLoggedIn } = useSelector((state) => state.userdata);
+  const { isLoggedIn, isLoading } = useSelector((state) => state.userdata);
   const { palette } = useTheme();
   const [search, setsearch] = useState("");
   const [searchresult, setsearchresult] = useState(null);
@@ -50,7 +51,21 @@ function Navbar({ toggleTheme }) {
   };
 
   return (
-    <>
+    <Box py={3}>
+      {isLoading && (
+        <Box
+          display={"flex"}
+          left={"50vw"}
+          top={"50vh"}
+          fullWidth
+          zIndex={5}
+          position="absolute"
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <Loading />
+        </Box>
+      )}
       <Toolbar py={10}>
         <IconButton
           edge="start"
@@ -104,7 +119,7 @@ function Navbar({ toggleTheme }) {
           >
             Tags
           </Typography>
-          {!isLoggedIn ? (
+          {!isLoggedIn && (
             <Stack direction={"row"} mx={2} spacing={2}>
               <Button
                 variant="outlined"
@@ -123,13 +138,13 @@ function Navbar({ toggleTheme }) {
                 join
               </Button>
             </Stack>
-          ) : (
-            <Box mx={3} href={"/profile"} component={Link}>
-              <Avatar variant="circular" sx={{ width: 40, height: 40 }} />
-            </Box>
           )}
         </Stack>
-
+        {isLoggedIn && (
+          <Box mx={3} href={"/profile"} component={Link}>
+            <Avatar variant="circular" sx={{ width: 40, height: 40 }} />
+          </Box>
+        )}
         <IconButton onClick={toggleTheme} color="primary">
           {palette.mode === "dark" ? <DarkModeIcon /> : <ContrastIcon />}
         </IconButton>
@@ -244,15 +259,20 @@ function Navbar({ toggleTheme }) {
         {search && (
           <Box>
             {loading && (
-              <Stack direction={"row"} my={5} justifyContent={"center"}>
-                <CircularProgress />
+              <Stack
+                fullWidth
+                direction={"row"}
+                my={5}
+                justifyContent={"center"}
+              >
+                <Loading />
               </Stack>
             )}
             {searchresult && (
               <List px={2}>
                 <Typography
                   ml={2}
-                  variant="h6"
+                  variant="body1"
                   my={2}
                   textTransform={"capitalize"}
                   color="secondary"
@@ -271,22 +291,28 @@ function Navbar({ toggleTheme }) {
                       no result found
                     </Typography>
                   )}
-                {searchresult?.results?.map((item, index) => (
-                  <ListItem
-                    key={index}
-                    component={Link}
-                    onClick={() => {
-                      setsearch("");
-                    }}
-                    sx={{
-                      textDecoration: "none",
-                      color: palette.mode === "dark" ? "white" : "black",
-                    }}
-                    href={`/author/${item.slug}`}
-                  >
-                    <ListItemText primary={item.name} />
-                  </ListItem>
-                ))}
+                <Box px={3}>
+                  <Typography textTransform="capitalize" py={1} variant="h6" color="primary">
+                    authors
+                  </Typography>
+                  {searchresult?.results?.map((item, index) => (
+                    <ListItem
+                      key={index}
+                      component={Link}
+                      onClick={() => {
+                        setsearch("");
+                      }}
+                      sx={{
+                        textDecoration: "none",
+                        color: palette.mode === "dark" ? "white" : "black",
+                      }}
+                      href={`/author/${item.slug}`}
+                    >
+                      <ListItemText primary={item.name} />
+                    </ListItem>
+                  ))}
+                </Box>
+
                 <Box
                   maxHeight={500}
                   my={2}
@@ -308,8 +334,8 @@ function Navbar({ toggleTheme }) {
                   )}
                   {searchquotes?.results?.map((item, index) => {
                     return (
-                      <Box mx={{ xs: 2, md: 10 }}>
-                        <Quote key={index} quote={item} />
+                      <Box key={index} mx={{ xs: 2, md: 10 }}>
+                        <Quote quote={item} />
                       </Box>
                     );
                   })}
@@ -319,7 +345,7 @@ function Navbar({ toggleTheme }) {
           </Box>
         )}
       </Box>
-    </>
+    </Box>
   );
 }
 
