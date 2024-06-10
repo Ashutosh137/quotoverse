@@ -6,7 +6,6 @@ import { Stack, Typography, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Signin, signup } from "@/lib/store/userreducer";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import FormDialog from "./forgetdialog";
 
 function LoginComponent({ role = "signin" }) {
