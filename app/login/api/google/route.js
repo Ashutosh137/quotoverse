@@ -3,7 +3,7 @@ import Connectmongodb from "@/server/mongodb";
 
 const { OAuth2Client } = require("google-auth-library");
 
-const client = new OAuth2Client(process.env.googleclientid);
+const client = new OAuth2Client(process.env.NEXT_PUBLIC_Client);
 // import User from "@/server/user";
 export async function GET(req) {
   return Response.json({ message: "mot supported" });
@@ -15,7 +15,7 @@ export async function POST(req, res) {
     const body = await Bodyconvert(req);
     const ticket = await client.verifyIdToken({
       idToken: body.credential.credential,
-      audience: process.env.googleclientid, 
+      audience: process.env.NEXT_PUBLIC_Client, 
     });
 
     const payload = ticket.getPayload();
