@@ -4,9 +4,16 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Stack, Typography, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { Signin, signup } from "@/lib/store/userreducer";
+import {
+  Signin,
+  signinStart,
+  signinSuccess,
+  signup,
+} from "@/lib/store/userreducer";
 import { useRouter } from "next/navigation";
+import { GoogleLogin } from "@react-oauth/google";
 import FormDialog from "./forgetdialog";
+import toast from "react-hot-toast";
 
 function LoginComponent({ role = "signin" }) {
   const { error, isLoggedIn, isSignup } = useSelector(
@@ -26,6 +33,54 @@ function LoginComponent({ role = "signin" }) {
   const dispatch = useDispatch();
   return (
     <Fragment>
+      <Typography
+        variant="h4"
+        textAlign={"center"}
+        textTransform={"capitalize"}
+        my={4}
+        color="primary"
+      >
+        {role}
+      </Typography>
+      <Stack
+        mx="auto"
+        direction={"row"}
+        justifyContent={"center"}
+        spacing={4}
+        alignItems={"center"}
+      >
+        <Button variant="text" color="primary">
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              dispatch(signinStart());
+              const data = await fetch(`${window.origin}/login/api/google`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  credential: credentialResponse,
+                }),
+              }).then((res) => res.json());
+
+              if (data.message) {
+                toast.success(data.message);
+                dispatch(signinSuccess(data.data));
+                router.push("/");
+              } else {
+                toast.error("Login failed");
+              }
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
+        </Button>
+        <Typography variant="body1" textAlign={"center"} color="primary">
+          OR
+        </Typography>
+      </Stack>
+
       <Stack
         direction={"column"}
         justifyContent={"center"}
@@ -38,7 +93,7 @@ function LoginComponent({ role = "signin" }) {
           role === "signup" && dispatch(signup(email, pass, name));
         }}
         spacing={4}
-        my={5}
+        my={2}
       >
         <Typography
           variant="body1"

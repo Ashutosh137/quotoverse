@@ -8,9 +8,7 @@ export const metadata = {
 
 const Page = async () => {
   return (
-    <Box>
       <LoginComponent />
-    </Box>
   );
 };
 
