@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Stack } from "@mui/material";
 export const metadata = {
   title: "Tags || Quotoverse",
-  description: 'all tags in quotoverse',
+  description: "all tags in quotoverse",
 };
 export default async function Page() {
   const tags = await fetchdata("tags");

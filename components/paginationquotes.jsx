@@ -47,7 +47,6 @@ export default function Paginationquotes({
     return () => window.removeEventListener("scroll", handleScroll);
   }, [loading, morredata]);
 
-  console.log(morredata);
   if (!morredata) {
     window.addEventListener("scroll", () => {});
   }

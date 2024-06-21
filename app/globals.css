@@ -6,8 +6,8 @@
   text-decoration: none;
 }
 body {
-  background: black;
-  color: white;
+  /* background: black;
+  color: white; */
 }
 
 body::-webkit-scrollbar,

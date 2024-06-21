@@ -33,21 +33,7 @@ export default function Page() {
         <title>{name}|| profile || qutoverse </title>
         <meta name="description" content={`author ${name} quotoverse`} />
       </Head>
-      {favorite.length > 0 && (
-        <Box>
-          <Typography
-            variant="h6"
-            color="primary"
-            textTransform={"capitalize"}
-            textAlign={"center"}
-          >
-            favorite quotes
-          </Typography>
-          {favorite?.map((quoteid, index) => {
-            return <Quotesarray key={index} quoteid={quoteid} />;
-          })}
-        </Box>
-      )}
+     
       <Box>
         <Typography
           variant="h6"
@@ -112,6 +98,22 @@ export default function Page() {
           <Logout />
         </IconButton>
       </Box>
+
+      {favorite.length > 0 && (
+        <Box>
+          <Typography
+            variant="h6"
+            color="primary"
+            textTransform={"capitalize"}
+            textAlign={"center"}
+          >
+            favorite quotes
+          </Typography>
+          {favorite?.map((quoteid, index) => {
+            return <Quotesarray key={index} quoteid={quoteid} />;
+          })}
+        </Box>
+      )}
     </Stack>
   );
 }

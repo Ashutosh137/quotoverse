@@ -19,12 +19,13 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ContrastIcon from "@mui/icons-material/Contrast";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "lodash";
 import { fetchdata } from "@/lib/middleware/fetch";
 import Link from "next/link";
 import Quote from "./quotes";
 import { Loading } from "./ui/loading";
+import { Autosignin } from "@/lib/store/userreducer";
 
 function Navbar({ toggleTheme }) {
   const { isLoggedIn, isLoading } = useSelector((state) => state.userdata);
@@ -34,6 +35,7 @@ function Navbar({ toggleTheme }) {
   const [searchquotes, setsearchquotes] = useState(null);
   const [loading, setloading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const searchdata = debounce(async () => {
     setloading(true);
@@ -41,6 +43,12 @@ function Navbar({ toggleTheme }) {
     setsearchresult(await fetchdata(`search/authors?query=${search}`));
     setloading(false);
   }, [1200]);
+
+  useEffect(() => {
+    dispatch(Autosignin());
+  }, [dispatch]);
+
+ 
 
   useEffect(() => {
     searchdata(search);
@@ -292,7 +300,12 @@ function Navbar({ toggleTheme }) {
                     </Typography>
                   )}
                 <Box px={3}>
-                  <Typography textTransform="capitalize" py={1} variant="h6" color="primary">
+                  <Typography
+                    textTransform="capitalize"
+                    py={1}
+                    variant="h6"
+                    color="primary"
+                  >
                     authors
                   </Typography>
                   {searchresult?.results?.map((item, index) => (
