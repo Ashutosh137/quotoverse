@@ -27,12 +27,16 @@ export async function POST(req, res) {
       email,
     });
     if (!Get_userdata) {
-      const data = await Get_userdatacollection.insertOne({
+      await Get_userdatacollection.insertOne({
         email: email,
         name: payload["name"],
         favorite_quotes: [],
         createdat: new Date(),
       });
+
+      const data = await Get_userdatacollection.findOne({
+      email,
+    });
 
       return Response.json({
         message: "Signup Sucessfully",
