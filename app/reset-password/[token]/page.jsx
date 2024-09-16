@@ -12,7 +12,7 @@ export default async function Page({ params }) {
   }).then((res) => res.json());
 
   if (data.message !== "success") {
-    toast.error("no user found")
+    toast.error("no user found");
     redirect("/login");
   }
 

@@ -18,7 +18,7 @@ import toast from "react-hot-toast";
 
 export default function Page() {
   const { favorite, isLoggedIn, name, uid } = useSelector(
-    (state) => state.userdata
+    (state) => state.userdata,
   );
   if (!isLoggedIn) {
     redirect("/login");
@@ -33,7 +33,7 @@ export default function Page() {
         <title>{name}|| profile || qutoverse </title>
         <meta name="description" content={`author ${name} quotoverse`} />
       </Head>
-     
+
       <Box>
         <Typography
           variant="h6"

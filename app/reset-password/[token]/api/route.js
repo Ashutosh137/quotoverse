@@ -16,17 +16,17 @@ export async function GET(req, context) {
 
 export async function POST(req, res) {
   const { password, token } = await Bodyconvert(req);
-  console.log(password,token)
+  console.log(password, token);
   const db = await Connectmongodb();
   const collection = db.collection("users");
-  const hashedpassword =await hashpassword(password);
+  const hashedpassword = await hashpassword(password);
   const user = await collection.updateOne(
     { resetPasswordToken: token },
-    { $set: { password: hashedpassword } }
+    { $set: { password: hashedpassword } },
   );
 
   if (user) {
-    console.log(user,hashedpassword,token)
+    console.log(user, hashedpassword, token);
     return Response.json({
       message: "password changed successfully",
     });

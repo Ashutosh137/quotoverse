@@ -17,7 +17,7 @@ export default function Author({ author }) {
     >
       <Stack
         py={{ xs: 2, md: 4 }}
-        px={{xs:3,md:5}}
+        px={{ xs: 3, md: 5 }}
         textTransform="capitalize"
         spacing={1}
       >

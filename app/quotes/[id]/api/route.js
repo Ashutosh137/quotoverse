@@ -40,12 +40,12 @@ export async function PUT(req, res) {
     if (isliked) {
       const update = await collection.updateOne(
         { _id: new ObjectId(commentid) },
-        { $pull: { likes: uid } }
+        { $pull: { likes: uid } },
       );
     } else {
       const update = await collection.updateOne(
         { _id: new ObjectId(commentid) },
-        { $push: { likes: uid } }
+        { $push: { likes: uid } },
       );
     }
     return Response.json({
@@ -62,9 +62,7 @@ export async function DELETE(req, res) {
     const { commentid } = await Bodyconvert(req);
     const db = await Connectmongodb();
     const collection = db.collection("Comments");
-    const update = await collection.deleteOne(
-      { _id: new ObjectId(commentid) },
-    );
+    const update = await collection.deleteOne({ _id: new ObjectId(commentid) });
 
     return Response.json({
       message: "Comment Sucessfully deleted",

@@ -89,7 +89,7 @@ function Comment({ comment }) {
           headers: {
             "Cache-Control": "no-cache",
           },
-        }
+        },
       ).then((res) => res.json());
       setcommentby(postedby.profiledata);
     };

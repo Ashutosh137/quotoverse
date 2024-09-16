@@ -34,7 +34,7 @@ export default function Resetpassword({ token }) {
               cache: "no-cache",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ password: newpassword, token }),
-            }
+            },
           ).then((res) => res.json());
 
           if (data.message) {

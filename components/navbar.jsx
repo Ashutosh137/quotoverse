@@ -48,8 +48,6 @@ function Navbar({ toggleTheme }) {
     dispatch(Autosignin());
   }, [dispatch]);
 
- 
-
   useEffect(() => {
     searchdata(search);
   }, [search]);

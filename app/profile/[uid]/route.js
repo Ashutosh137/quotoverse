@@ -11,9 +11,9 @@ export async function GET(req, context) {
 }
 
 export async function POST(req, res) {
-    return Response.json({
-      message: "no support",
-    });
+  return Response.json({
+    message: "no support",
+  });
 }
 export async function PUT(req, res) {
   try {
@@ -27,7 +27,7 @@ export async function PUT(req, res) {
       const User = await Get_userdatacollection.updateOne(
         { _id: new ObjectId(uid) },
         { $set: { name: username } },
-        { returnOriginal: false }
+        { returnOriginal: false },
       );
       if (!User) {
         return Response.json({ error: "user not found" });

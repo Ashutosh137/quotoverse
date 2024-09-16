@@ -39,11 +39,11 @@ export async function PUT(req, res) {
         if (userdata.favorite.includes(quote._id)) {
           await Get_userdatacollection.updateOne(
             { email: userdata.email },
-            { $pull: { favorite_quotes: quote._id } }
+            { $pull: { favorite_quotes: quote._id } },
           );
           await quotescollection.updateOne(
             { _id: quote._id },
-            { $pull: { likes: userdata.uid } }
+            { $pull: { likes: userdata.uid } },
           );
           return Response.json({
             message: "sucessfully disliked",
@@ -51,11 +51,11 @@ export async function PUT(req, res) {
         } else {
           await Get_userdatacollection.updateOne(
             { email: userdata.email },
-            { $push: { favorite_quotes: quote._id } }
+            { $push: { favorite_quotes: quote._id } },
           );
           await quotescollection.updateOne(
             { quoteid: quote._id },
-            { $push: { likes: userdata.uid } }
+            { $push: { likes: userdata.uid } },
           );
           return Response.json({
             message: "sucessfully liked",

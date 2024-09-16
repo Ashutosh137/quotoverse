@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 import Typography from "@mui/material/Typography";
 export const metadata = {
   title: "Quote || quotoverse",
-  description: 'Quote in quotoverse',
+  description: "Quote in quotoverse",
 };
 export default async function Page({ params }) {
   const { id } = params;
@@ -20,7 +20,6 @@ export default async function Page({ params }) {
     },
   }).then((res) => res.json());
 
-  
   return (
     <div>
       <Quote redirect={false} quote={quotePromise} />

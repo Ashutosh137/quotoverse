@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 
 function LoginComponent({ role = "signin" }) {
   const { error, isLoggedIn, isSignup } = useSelector(
-    (state) => state.userdata
+    (state) => state.userdata,
   );
   const router = useRouter();
   const [email, setemail] = useState("");

@@ -15,7 +15,7 @@ export async function POST(req, res) {
     const body = await Bodyconvert(req);
     const ticket = await client.verifyIdToken({
       idToken: body.credential.credential,
-      audience: process.env.NEXT_PUBLIC_Client, 
+      audience: process.env.NEXT_PUBLIC_Client,
     });
 
     const payload = ticket.getPayload();
@@ -35,8 +35,8 @@ export async function POST(req, res) {
       });
 
       const data = await Get_userdatacollection.findOne({
-      email,
-    });
+        email,
+      });
 
       return Response.json({
         message: "Signup Sucessfully",

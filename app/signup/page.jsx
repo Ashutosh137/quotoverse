@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import LoginComponent from "@/components/login";
 export const metadata = {
   title: "Signup || quotoverse",
-  description: 'signup in quotoverse',
+  description: "signup in quotoverse",
 };
 async function Page() {
   return (

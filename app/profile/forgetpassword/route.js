@@ -26,7 +26,7 @@ export async function POST(req, res) {
           resetPasswordToken: token,
           resetPasswordExpires: new Date(Date.now() + 900000),
         },
-      }
+      },
     );
 
     console.log(req.headers.get("origin").value);

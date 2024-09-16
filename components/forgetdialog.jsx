@@ -31,7 +31,7 @@ export default function FormDialog({ toggle, open }) {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
-              }
+              },
             ).then((res) => res.json());
 
             if (data?.error) {
